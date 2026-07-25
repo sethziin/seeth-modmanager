@@ -348,7 +348,7 @@ Milestone 2 ─> Drag-and-drop install
 ### Testing Approach
 - **Unit tests**: Vitest, mock file system ops where needed
 - **Integration tests**: Use temp directories for real file operations
-- **Existing tests**: 35 tests (LogService, ConfigService, FileSystemService) — must continue passing
+- **Existing tests**: 126 tests across 11 test files — must continue passing
 - **New test files**: One per service (path-resolver.test.ts, archive-service.test.ts, etc.)
 
 ### Test File Locations

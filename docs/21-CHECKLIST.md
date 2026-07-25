@@ -93,7 +93,7 @@ This is a comprehensive verification checklist for each development phase.
 - [x] typography.css created
 - [x] scrollbar.css created
 - [x] animations.css created
-- [x] Geist font loaded (Google Fonts)
+- [x] Fonts loaded: DM Sans (body) + Outfit (display) + JetBrains Mono (code)
 - [x] Material Symbols Outlined loaded
 - [x] TitleBar component implemented (drag region, brand, window controls)
 - [x] SideNav component implemented (items, active states, version, detected games)
@@ -163,6 +163,6 @@ This is a comprehensive verification checklist for each development phase.
 - [x] forge.config.ts configured (MakerZIP, VitePlugin)
 - [x] index.html moved to project root for Forge Vite plugin
 - [x] No TypeScript errors
-- [x] All 35 tests pass
+- [x] All 126 tests pass (11 test files)
 - [x] Documentation up to date
 - [x] CURRENT_TASK.md updated to reflect release

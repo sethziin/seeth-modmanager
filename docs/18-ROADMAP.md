@@ -85,7 +85,7 @@ Dictates the tasks tracked in `19-CURRENT_TASK.md` and realizes the architectura
 - [ ] Create typography.css
 - [ ] Create scrollbar.css
 - [ ] Create animations.css
-- [ ] Load Geist font
+- [ ] Load fonts: DM Sans (body), Outfit (display), JetBrains Mono (code)
 - [ ] Build TitleBar component (drag region, brand, window controls)
 - [ ] Build SideNav component (navigation items, active states, version display)
 - [ ] Build StatusBar component (system status, sync, version)
