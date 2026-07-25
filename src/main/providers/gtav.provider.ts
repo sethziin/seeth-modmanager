@@ -56,7 +56,7 @@ export class GTAVProvider implements GameProvider {
   readonly shortName = 'GTA V';
   readonly slug = 'gtav';
   readonly supportedPlatforms = ['steam', 'epic', 'rockstar'];
-  readonly coverUrl = 'https://media.rockstargames.com/rockstargames/img/global/news/upload/actual_1364906194.jpg';
+  readonly coverUrl = '/covers/gta-v-cover.jpg';
 
   private readonly log: LogService;
   private validator: ModValidator | null = null;
