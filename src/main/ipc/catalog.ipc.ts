@@ -1,7 +1,11 @@
 import { ipcMain } from 'electron';
 import type { CatalogService } from '../services/catalog-service';
+import type { RemoteCatalogProvider } from '../providers/remote-catalog.provider';
 
-export function registerCatalogIpcHandlers(catalog: CatalogService): void {
+export function registerCatalogIpcHandlers(
+  catalog: CatalogService,
+  remoteCatalog?: RemoteCatalogProvider,
+): void {
   ipcMain.handle('catalog:search', async (_event, query: string, filters?: Record<string, unknown>) => {
     const result = catalog.search(query, filters as any);
     if (!result.success) {
@@ -24,5 +28,16 @@ export function registerCatalogIpcHandlers(catalog: CatalogService): void {
       throw new Error(result.error.message);
     }
     return result.data;
+  });
+
+  ipcMain.handle('catalog:refresh', async () => {
+    if (!remoteCatalog) {
+      return false;
+    }
+    const result = await remoteCatalog.sync();
+    if (result.success && result.data) {
+      await catalog.refreshAll();
+    }
+    return result.success && result.data;
   });
 }

@@ -14,6 +14,7 @@ import { ModValidator } from './services/mod-validator';
 import { ModInstaller } from './services/mod-installer';
 import { CatalogService, LocalCatalogProvider } from './services/catalog-service';
 import { DependencyService } from './services/dependency-service';
+import { RemoteCatalogProvider } from './providers/remote-catalog.provider';
 import { GTAVProvider } from './providers/gtav.provider';
 import { registerWindowIpcHandlers } from './ipc/window.ipc';
 import { registerAppIpcHandlers } from './ipc/app.ipc';
@@ -43,6 +44,7 @@ function initializeServices(): {
   installer: ModInstaller;
   catalog: CatalogService;
   dependency: DependencyService;
+  remoteCatalog: RemoteCatalogProvider;
 } {
   const log = new LogService(paths.logsDir(), { level: 'debug' });
   logService = log;
@@ -63,6 +65,7 @@ function initializeServices(): {
   const catalog = new CatalogService();
   const localCatalog = new LocalCatalogProvider(log, paths.catalogsDir());
   catalog.registerProvider(localCatalog);
+  const remoteCatalog = new RemoteCatalogProvider(log, paths.catalogsDir());
   const dependency = new DependencyService(log, fileSystem, config, DATA_DIR);
 
   game.registerProvider(gtavProvider);
@@ -76,9 +79,16 @@ function initializeServices(): {
   })));
   void catalog.refreshAll();
 
+  remoteCatalog.sync().then((result) => {
+    if (result.success && result.data) {
+      void catalog.refreshAll();
+      log.info('Main', 'Remote catalog synced on startup');
+    }
+  });
+
   log.info('Main', 'Services initialized');
 
-  return { log, config, fileSystem, cache, backup, game, mod, download, installer, catalog, dependency };
+  return { log, config, fileSystem, cache, backup, game, mod, download, installer, catalog, dependency, remoteCatalog };
 }
 
 function createWindow(): void {
@@ -117,7 +127,7 @@ function registerIpcHandlers(services: ReturnType<typeof initializeServices>): v
   registerGameIpcHandlers(services.game);
   registerModIpcHandlers(services.mod);
   registerDownloadIpcHandlers(services.download);
-  registerCatalogIpcHandlers(services.catalog);
+  registerCatalogIpcHandlers(services.catalog, services.remoteCatalog);
 
   services.installer.onProgress((stage, message) => {
     mainWindow?.webContents.send('mod:install-progress', { stage, message });
