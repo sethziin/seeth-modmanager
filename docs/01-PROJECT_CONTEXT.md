@@ -50,6 +50,18 @@ Includes project objectives, application flow, architecture overview, constraint
 ## Dependencies
 - Must align with choices in `02-STACK.md` and `03-ARCHITECTURE.md`.
 
+## Official Repositories
+
+| Repository | URL |
+|-----------|-----|
+| App (main) | `https://github.com/sethziin/seeth-modmanager` |
+| Catalog (mod metadata) | `https://github.com/sethziin/seeth-modmanager-catalog` |
+
+The catalog is consumed at:
+```
+https://raw.githubusercontent.com/sethziin/seeth-modmanager-catalog/main/catalog.json
+```
+
 ## Criteria for Completion
 Considered complete when all constraints, scopes, and project visions are fully articulated without ambiguity.
 
