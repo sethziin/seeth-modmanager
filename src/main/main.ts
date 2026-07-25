@@ -137,8 +137,31 @@ function registerIpcHandlers(services: ReturnType<typeof initializeServices>): v
     (progress) => {
       mainWindow?.webContents.send('download:progress', progress);
     },
-    (result) => {
-      mainWindow?.webContents.send('download:complete', result);
+    async (result) => {
+      const meta = result.metadata;
+      if (meta?.autoInstall && meta.gameId) {
+        if (meta.expectedChecksum && result.checksum !== meta.expectedChecksum) {
+          const msg = `Checksum mismatch: expected ${meta.expectedChecksum.slice(0, 16)}..., got ${result.checksum.slice(0, 16)}...`;
+          mainWindow?.webContents.send('download:error', { downloadId: result.downloadId, error: msg });
+          return;
+        }
+
+        const installResult = await services.installer.install(meta.gameId, result.filePath);
+        if (installResult.success) {
+          mainWindow?.webContents.send('download:complete', result);
+          mainWindow?.webContents.send('mod:install-progress', {
+            stage: 'done',
+            message: `${installResult.data.name} v${installResult.data.version} installed`,
+          });
+        } else {
+          mainWindow?.webContents.send('download:error', {
+            downloadId: result.downloadId,
+            error: `Install failed: ${installResult.error.message}`,
+          });
+        }
+      } else {
+        mainWindow?.webContents.send('download:complete', result);
+      }
     },
     (downloadId, error) => {
       mainWindow?.webContents.send('download:error', { downloadId, error });

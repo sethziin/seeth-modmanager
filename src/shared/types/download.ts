@@ -30,6 +30,8 @@ export interface DownloadMetadata {
   readonly modVersion: string;
   readonly gameId: string;
   readonly autoInstall: boolean;
+  readonly catalogEntryId?: string;
+  readonly expectedChecksum?: string;
 }
 
 export interface DownloadProgress {
@@ -44,4 +46,5 @@ export interface DownloadResult {
   readonly downloadId: string;
   readonly filePath: string;
   readonly checksum: string;
+  readonly metadata?: DownloadMetadata;
 }

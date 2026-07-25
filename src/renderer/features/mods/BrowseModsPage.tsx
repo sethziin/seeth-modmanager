@@ -1,5 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { getIpcAdapter } from '../../shared/lib/ipc-adapter';
+import { useDownloadStore } from '../../shared/stores/useDownloadStore';
+import { useGameStore } from '../../shared/stores/useGameStore';
 import { Button } from '../../shared/components/Button';
 import { Input } from '../../shared/components/Input';
 import { Chip } from '../../shared/components/Chip';
@@ -14,8 +16,11 @@ interface CatalogEntry {
   readonly author: string;
   readonly description?: string;
   readonly category: string;
+  readonly gameId: string;
   readonly tags: readonly string[];
   readonly sourceUrl: string;
+  readonly packageUrl?: string;
+  readonly checksum?: string;
   readonly rating?: number;
   readonly downloadCount?: number;
 }
@@ -36,6 +41,7 @@ export function BrowseModsPage(): React.ReactElement {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
+  const startDownload = useDownloadStore((s) => s.startDownload);
 
   const loadCatalog = useCallback(async () => {
     setLoading(true);
@@ -66,6 +72,31 @@ export function BrowseModsPage(): React.ReactElement {
       setLoading(false);
     }
   }, [search, category]);
+
+  const handleDownload = useCallback(
+    async (entry: CatalogEntry) => {
+      const url = entry.packageUrl || entry.sourceUrl;
+
+      if (!entry.packageUrl) {
+        window.open(url, '_blank');
+        return;
+      }
+
+      try {
+        await startDownload(url, {
+          modName: entry.name,
+          modVersion: entry.version,
+          gameId: entry.gameId,
+          autoInstall: true,
+          catalogEntryId: entry.id,
+          expectedChecksum: entry.checksum,
+        });
+      } catch {
+        // Error toast handled by store
+      }
+    },
+    [startDownload],
+  );
 
   return (
     <div className={styles.page}>
@@ -137,8 +168,8 @@ export function BrowseModsPage(): React.ReactElement {
                 ))}
               </div>
               <div className={styles.modActions}>
-                <Button variant="primary" size="sm" icon="download" onClick={() => window.open(entry.sourceUrl, '_blank')}>
-                  Download
+                <Button variant="primary" size="sm" icon="download" onClick={() => void handleDownload(entry)}>
+                  {entry.packageUrl ? 'Download & Install' : 'Open Page'}
                 </Button>
               </div>
             </div>

@@ -152,17 +152,22 @@ export class DownloadService {
 
       for (let attempt = 0; attempt <= maxRetries; attempt++) {
         try {
-          const result = await this.performDownload(item, controller.signal);
+            const result = await this.performDownload(item, controller.signal);
           if (result.success) {
+            const checksumResult = this.fileSystem.calculateFileHash(item.destinationPath);
+            const actualChecksum = checksumResult.success ? `sha256:${checksumResult.data}` : '';
+
             this.updateItem(item.id, {
               status: 'completed',
               progress: 100,
+              checksum: actualChecksum,
               completedAt: new Date().toISOString(),
             });
             this.onComplete?.({
               downloadId: item.id,
               filePath: item.destinationPath,
-              checksum: '',
+              checksum: actualChecksum,
+              metadata: item.metadata,
             });
             this.log.info('DownloadService', 'Download completed', {
               downloadId: item.id,
