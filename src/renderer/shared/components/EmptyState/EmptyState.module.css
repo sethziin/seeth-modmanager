@@ -1,0 +1,27 @@
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--spacing-6) var(--spacing-8);
+  gap: var(--spacing-2);
+  background: var(--color-surface-container-low);
+  border: 1px dashed var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+}
+
+.icon {
+  color: var(--color-on-surface-variant);
+  opacity: 0.5;
+  font-size: 20px;
+}
+
+.title {
+  font: var(--text-title-sm);
+  color: var(--color-on-surface);
+}
+
+.description {
+  font: var(--text-body-sm);
+  color: var(--color-on-surface-variant);
+  max-width: 400px;
+}

@@ -1,0 +1,38 @@
+.progress {
+  width: 100%;
+  height: 4px;
+  background: var(--color-surface-container-highest);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.determinate {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 2px;
+  transform-origin: left;
+  transition: transform var(--transition-normal);
+}
+
+.indeterminate {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 2px;
+  animation: indeterminate 1.5s infinite ease-in-out;
+}
+
+@keyframes indeterminate {
+  0% {
+    transform: scaleX(0);
+  }
+  50% {
+    transform: scaleX(0.6) translateX(33%);
+  }
+  100% {
+    transform: scaleX(0) translateX(100vw);
+  }
+}
+
+.lg {
+  height: 8px;
+}

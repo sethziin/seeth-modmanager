@@ -1,0 +1,38 @@
+.spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner svg {
+  animation: spin 1s linear infinite;
+}
+
+.sm svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 3;
+}
+
+.md svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2.5;
+}
+
+.lg svg {
+  width: 40px;
+  height: 40px;
+  stroke-width: 2;
+}
+
+.spinner circle {
+  stroke: var(--color-primary);
+  stroke-linecap: round;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

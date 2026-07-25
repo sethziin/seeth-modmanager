@@ -1,0 +1,140 @@
+.page {
+  max-width: 1200px;
+}
+
+.pageTitle {
+  font: var(--text-headline-md);
+  color: var(--color-on-surface);
+  margin-bottom: var(--spacing-6);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+  flex-wrap: wrap;
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  flex: 1;
+}
+
+.logContainer {
+  background: var(--color-surface-container);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.logHeader {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-2) var(--spacing-3);
+  border-bottom: 1px solid var(--color-outline-variant);
+  font: var(--text-label-caps);
+  color: var(--color-on-surface-variant);
+}
+
+.logHeaderTime {
+  width: 180px;
+  flex-shrink: 0;
+}
+
+.logHeaderLevel {
+  width: 60px;
+  flex-shrink: 0;
+}
+
+.logHeaderSource {
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.logHeaderMessage {
+  flex: 1;
+}
+
+.logEntries {
+  max-height: 600px;
+  overflow-y: auto;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.logEntry {
+  display: flex;
+  align-items: flex-start;
+  padding: var(--spacing-1) var(--spacing-3);
+  border-bottom: 1px solid var(--color-outline-variant);
+  line-height: 1.6;
+}
+
+.logEntry:last-child {
+  border-bottom: none;
+}
+
+.logTime {
+  width: 180px;
+  flex-shrink: 0;
+  color: var(--color-on-surface-variant);
+}
+
+.logLevel {
+  width: 60px;
+  flex-shrink: 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 10px;
+  padding-top: 2px;
+}
+
+.logSource {
+  width: 120px;
+  flex-shrink: 0;
+  color: var(--color-on-surface-variant);
+}
+
+.logMessage {
+  flex: 1;
+  color: var(--color-on-surface);
+  word-break: break-word;
+}
+
+.levelError {
+  color: var(--color-error);
+}
+
+.levelWarn {
+  color: var(--color-warning);
+}
+
+.levelInfo {
+  color: var(--color-primary);
+}
+
+.levelDebug {
+  color: var(--color-on-surface-variant);
+}
+
+.emptyLog {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4) var(--spacing-5);
+  color: var(--color-on-surface-variant);
+}
+
+.emptyLogIcon {
+  font-size: 18px;
+  opacity: 0.5;
+}
+
+.logCount {
+  font: var(--text-body-xs);
+  color: var(--color-on-surface-variant);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-top: 1px solid var(--color-outline-variant);
+}

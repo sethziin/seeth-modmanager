@@ -1,0 +1,40 @@
+body {
+  font-family: var(--font-family);
+}
+
+h1 {
+  font: var(--text-display-lg);
+  letter-spacing: -0.02em;
+  color: var(--color-on-surface);
+}
+
+h2 {
+  font: var(--text-headline-md);
+  letter-spacing: -0.01em;
+  color: var(--color-on-surface);
+}
+
+h3 {
+  font: var(--text-title-sm);
+  color: var(--color-on-surface);
+}
+
+p {
+  font: var(--text-body-md);
+  color: var(--color-on-surface-variant);
+}
+
+small {
+  font: var(--text-body-sm);
+  color: var(--color-on-surface-variant);
+}
+
+.label-caps {
+  font: var(--text-label-caps);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.mono {
+  font: var(--text-mono-label);
+}

@@ -1,0 +1,98 @@
+.page {
+  max-width: 1200px;
+}
+
+.pageTitle {
+  font: var(--text-headline-md);
+  color: var(--color-on-surface);
+  margin-bottom: var(--spacing-6);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-6);
+}
+
+.section {
+  margin-bottom: var(--spacing-6);
+}
+
+.sectionTitle {
+  font: var(--text-title-sm);
+  color: var(--color-on-surface);
+  margin-bottom: var(--spacing-3);
+}
+
+.downloadItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-3) var(--spacing-4);
+  background: var(--color-surface-container-low);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-2);
+}
+
+.downloadInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.downloadName {
+  font: var(--text-body-sm);
+  font-weight: 500;
+  color: var(--color-on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.downloadMeta {
+  font: var(--text-body-xs);
+  color: var(--color-on-surface-variant);
+  margin-top: 2px;
+}
+
+.downloadProgress {
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.downloadProgressText {
+  font: var(--text-body-xs);
+  color: var(--color-on-surface-variant);
+  text-align: right;
+  margin-top: 2px;
+}
+
+.downloadActions {
+  display: flex;
+  gap: var(--spacing-1);
+  flex-shrink: 0;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font: var(--text-label-caps);
+}
+
+.statusCompleted {
+  background: color-mix(in srgb, var(--color-success) 10%, transparent);
+  color: var(--color-success);
+}
+
+.statusFailed {
+  background: color-mix(in srgb, var(--color-error) 10%, transparent);
+  color: var(--color-error);
+}
+
+.statusCancelled {
+  background: color-mix(in srgb, var(--color-on-surface-variant) 10%, transparent);
+  color: var(--color-on-surface-variant);
+}

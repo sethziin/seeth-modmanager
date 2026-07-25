@@ -1,0 +1,53 @@
+.toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggleInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.track {
+  width: 40px;
+  height: 22px;
+  background: var(--color-surface-container-highest);
+  border-radius: 11px;
+  transition: background var(--transition-fast);
+  position: relative;
+}
+
+.toggleInput:checked + .track {
+  background: var(--color-primary);
+}
+
+.thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  background: var(--color-on-surface-variant);
+  border-radius: 50%;
+  transition: all var(--transition-fast);
+}
+
+.toggleInput:checked + .track .thumb {
+  transform: translateX(18px);
+  background: var(--color-on-primary);
+}
+
+.toggleInput:focus-visible + .track {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.toggleInput:disabled + .track {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

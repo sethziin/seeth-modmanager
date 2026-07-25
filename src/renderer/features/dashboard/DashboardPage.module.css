@@ -1,0 +1,95 @@
+.page {
+  max-width: 1200px;
+}
+
+.pageTitle {
+  font: var(--text-headline-md);
+  color: var(--color-on-surface);
+  margin-bottom: var(--spacing-6);
+}
+
+.welcomeSection {
+  background: var(--color-surface-container);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  margin-bottom: var(--spacing-6);
+}
+
+.welcomeTitle {
+  font: var(--text-title-sm);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-2);
+}
+
+.welcomeText {
+  font: var(--text-body-md);
+  color: var(--color-on-surface-variant);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  margin-bottom: var(--spacing-6);
+  background: var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.statCard {
+  background: var(--color-surface-container-low);
+  padding: var(--spacing-4) var(--spacing-5);
+}
+
+.statLabel {
+  font: var(--text-label-caps);
+  color: var(--color-on-surface-variant);
+  margin-bottom: var(--spacing-2);
+}
+
+.statValue {
+  font: var(--text-headline-md);
+  color: var(--color-primary);
+}
+
+.section {
+  margin-bottom: var(--spacing-6);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-3);
+}
+
+.sectionTitle {
+  font: var(--text-title-sm);
+  color: var(--color-on-surface);
+}
+
+.gameList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--spacing-4);
+}
+
+.emptyInline {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4) var(--spacing-5);
+  background: var(--color-surface-container-low);
+  border-radius: var(--radius-lg);
+}
+
+.emptyInlineIcon {
+  font-size: 18px;
+  color: var(--color-on-surface-variant);
+  opacity: 0.5;
+}
+
+.emptyInlineText {
+  font: var(--text-body-sm);
+  color: var(--color-on-surface-variant);
+}

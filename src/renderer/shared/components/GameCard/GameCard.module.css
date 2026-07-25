@@ -1,0 +1,67 @@
+.gameCard {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface-container-low);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.gameCard:hover {
+  background: var(--color-surface-container);
+}
+
+.gameCard.active {
+  background: var(--color-surface-container);
+}
+
+.banner {
+  width: 100%;
+  height: 120px;
+  background: var(--color-surface-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bannerIcon {
+  font-size: 40px;
+  color: var(--color-on-surface-variant);
+  opacity: 0.3;
+}
+
+.bannerImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gameInfo {
+  padding: var(--spacing-3) var(--spacing-4);
+}
+
+.gameName {
+  font: var(--text-title-sm);
+  color: var(--color-on-surface);
+  margin-bottom: var(--spacing-1);
+}
+
+.gameMeta {
+  font: var(--text-body-xs);
+  color: var(--color-on-surface-variant);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-primary);
+  border-radius: var(--radius-sm);
+  font: var(--text-label-caps);
+}
