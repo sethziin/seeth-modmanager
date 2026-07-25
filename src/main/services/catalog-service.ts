@@ -15,6 +15,7 @@ export interface CatalogEntry {
   readonly tags: readonly string[];
   readonly thumbnailUrl?: string;
   readonly sourceUrl: string;
+  readonly packageUrl?: string;
   readonly fileSize?: number;
   readonly checksum?: string;
   readonly dependencies: readonly string[];
