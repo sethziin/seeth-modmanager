@@ -41,7 +41,7 @@ export class GameService {
       try {
         const installation = await provider.detectInstallation();
         if (installation) {
-          detectedGames.push({
+          const detected: DetectedGame = {
             id: provider.id,
             name: provider.name,
             shortName: provider.shortName,
@@ -50,7 +50,19 @@ export class GameService {
             platform: installation.platform,
             detectedAt: new Date().toISOString(),
             coverUrl: provider.coverUrl,
-          });
+          };
+          detectedGames.push(detected);
+
+          const saveResult = await this.saveGameInstallation(
+            provider.id,
+            installation.path,
+            installation.platform,
+          );
+          if (!saveResult.success) {
+            this.log.warn('GameService', `Failed to save ${provider.name} to registry`, {
+              error: saveResult.error.message,
+            });
+          }
         }
       } catch (error) {
         this.log.error('GameService', `Failed to detect ${provider.name}`, error as Error);
