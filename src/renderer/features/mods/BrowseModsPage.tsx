@@ -36,6 +36,10 @@ const CATEGORIES = [
   { id: 'ui', label: 'UI' },
 ];
 
+const ENABLED_CATALOG_MODS = [
+  'com.entropic.viewpoint',
+];
+
 export function BrowseModsPage(): React.ReactElement {
   const [entries, setEntries] = useState<readonly CatalogEntry[]>([]);
   const [loading, setLoading] = useState(true);
@@ -43,18 +47,22 @@ export function BrowseModsPage(): React.ReactElement {
   const [category, setCategory] = useState('');
   const startDownload = useDownloadStore((s) => s.startDownload);
 
+  const filterEnabled = useCallback((results: readonly CatalogEntry[]): readonly CatalogEntry[] => {
+    return results.filter((e) => ENABLED_CATALOG_MODS.includes(e.id));
+  }, []);
+
   const loadCatalog = useCallback(async () => {
     setLoading(true);
     try {
       const adapter = getIpcAdapter();
       const results = await adapter.catalog.search('', { category: category || undefined, limit: 100 });
-      setEntries(results as readonly CatalogEntry[]);
+      setEntries(filterEnabled(results as readonly CatalogEntry[]));
     } catch {
       setEntries([]);
     } finally {
       setLoading(false);
     }
-  }, [category]);
+  }, [category, filterEnabled]);
 
   useEffect(() => {
     void loadCatalog();
@@ -65,13 +73,13 @@ export function BrowseModsPage(): React.ReactElement {
     try {
       const adapter = getIpcAdapter();
       const results = await adapter.catalog.search(search, { category: category || undefined, limit: 100 });
-      setEntries(results as readonly CatalogEntry[]);
+      setEntries(filterEnabled(results as readonly CatalogEntry[]));
     } catch {
       setEntries([]);
     } finally {
       setLoading(false);
     }
-  }, [search, category]);
+  }, [search, category, filterEnabled]);
 
   const handleDownload = useCallback(
     async (entry: CatalogEntry) => {
