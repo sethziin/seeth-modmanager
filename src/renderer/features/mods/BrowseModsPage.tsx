@@ -1,7 +1,8 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { getIpcAdapter } from '../../shared/lib/ipc-adapter';
-import { useDownloadStore } from '../../shared/stores/useDownloadStore';
 import { useGameStore } from '../../shared/stores/useGameStore';
+import { useModStore } from '../../shared/stores/useModStore';
+import { useDownloadStore } from '../../shared/stores/useDownloadStore';
 import { Button } from '../../shared/components/Button';
 import { Input } from '../../shared/components/Input';
 import { Chip } from '../../shared/components/Chip';
@@ -46,10 +47,33 @@ export function BrowseModsPage(): React.ReactElement {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
   const startDownload = useDownloadStore((s) => s.startDownload);
+  const games = useGameStore((s) => s.games);
+  const installedMods = useModStore((s) => s.mods);
+  const loadInstalledMods = useModStore((s) => s.loadMods);
+  const enableMod = useModStore((s) => s.enableMod);
+  const disableMod = useModStore((s) => s.disableMod);
 
   const filterEnabled = useCallback((results: readonly CatalogEntry[]): readonly CatalogEntry[] => {
     return results.filter((e) => ENABLED_CATALOG_MODS.includes(e.id));
   }, []);
+
+  const activeGameId = useMemo(() => {
+    const gameWithPath = games.find((g) => g.installPath);
+    return gameWithPath?.id ?? 'gtav';
+  }, [games]);
+
+  useEffect(() => {
+    void loadInstalledMods(activeGameId);
+  }, [loadInstalledMods, activeGameId]);
+
+  const getModState = useCallback(
+    (entry: CatalogEntry): 'not-installed' | 'installed' | 'disabled' => {
+      const installed = installedMods.find((m) => m.name === entry.name);
+      if (!installed) return 'not-installed';
+      return installed.enabled ? 'installed' : 'disabled';
+    },
+    [installedMods],
+  );
 
   const loadCatalog = useCallback(async () => {
     setLoading(true);
@@ -176,9 +200,28 @@ export function BrowseModsPage(): React.ReactElement {
                 ))}
               </div>
               <div className={styles.modActions}>
-                <Button variant="primary" size="sm" icon="download" onClick={() => void handleDownload(entry)}>
-                  {entry.packageUrl ? 'Download & Install' : 'Open Page'}
-                </Button>
+                {(() => {
+                  const state = getModState(entry);
+                  if (state === 'installed') {
+                    return (
+                      <Button variant="secondary" size="sm" disabled>
+                        Installed
+                      </Button>
+                    );
+                  }
+                  if (state === 'disabled') {
+                    return (
+                      <Button variant="primary" size="sm" icon="check" onClick={() => void enableMod(activeGameId, installedMods.find((m) => m.name === entry.name)!.id)}>
+                        Enable
+                      </Button>
+                    );
+                  }
+                  return (
+                    <Button variant="primary" size="sm" icon="download" onClick={() => void handleDownload(entry)}>
+                      {entry.packageUrl ? 'Download & Install' : 'Open Page'}
+                    </Button>
+                  );
+                })()}
               </div>
             </div>
           ))}
