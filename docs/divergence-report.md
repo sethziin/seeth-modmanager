@@ -239,6 +239,25 @@
 
 ---
 
+## D17 — Package format: docs descrevem wrapper `files/`, V1 espera estrutura flat
+
+- **Classificação**: **A** — Documentação incorreta/desatualizada (em relação ao comportamento real do código V1)
+- **Justificativa**: `07-package-format.md` documenta a estrutura padrão com `mod.json` + pasta `files/` (caminhos relativos à pasta `files/`, ex.: `files/ScriptHookV.dll`). Porém o código V1 **não suporta o prefixo `files/`**. Rastreio confirmado em código:
+  1. `archive-service.extractAll()` extrai **todas** as entradas preservando `entryName` → `files/EntropicLibrary.asi` vira `staging/files/EntropicLibrary.asi`.
+  2. `manifest-reader.buildModArchive()` filtra com `availableFiles.includes(f.source)` e define `relativePath = f.destination`.
+  3. `mod-installer.install()` copia de `path.join(stagingDir, f.relativePath)`.
+  - Se o ZIP usar `files/`: `source: "EntropicLibrary.asi"` falha no `includes` (available = `"files/EntropicLibrary.asi"`) → `files.length === 0` → erro *"Mod archive contains no files to install"*. Ou `source: "files/EntropicLibrary.asi"` passa no filtro mas o installer procura em `staging/EntropicLibrary.asi` (não existe) → skip silencioso, nada instala.
+  - **Conclusão**: a única estrutura que o V1 instala de fato é **FLAT** (`mod.json` na raiz + arquivos nos paths relativos ao jogo, sem prefixo `files/`).
+- **Decisão V1 (acordada 2026-07-25)**: Aceitar FLAT no V1. Não corrigir o installer agora. Pendente definição futura:
+  - **Opção 1**: alterar o código (`extractAll`/`buildModArchive`) para aceitar/stripar o prefixo `files/`; ou
+  - **Opção 2**: oficializar FLAT como formato definitivo e atualizar `07-package-format.md`.
+- **Ação recomendada**: Por ora, NENHUMA alteração de código. Empacotar mods em formato FLAT. Registrar issue no GitHub para decidir Opção 1 vs 2.
+- **Documentos afetados**: `07-package-format.md` (atualizar quando a decisão de formato for finalizada)
+- **Impacto na implementação**: **Baixo** — só afeta a geração de pacotes, não o runtime. Pacote VIEWPOINT V1 gerado em formato FLAT validado.
+- **Issue**: "07-package-format.md describes files/ wrapper, but V1 implementation expects flat archive structure." (a abrir no GitHub — repo privado `sethziin/seeth-modmanager`)
+
+---
+
 ## Resumo das Ações
 
 ### Documentos a Atualizar (Categoria A + C)
