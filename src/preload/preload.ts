@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer } from 'electron';
+import { contextBridge, ipcRenderer, webUtils } from 'electron';
 import type {
   DetectedGame,
   GameDetails,
@@ -89,6 +89,7 @@ const electronAPI = {
       invoke<string | null>('fs:select-directory', title),
     getDiskUsage: (path: string): Promise<{ totalSizeMB: number; fileCount: number }> =>
       invoke<{ totalSizeMB: number; fileCount: number }>('fs:get-disk-usage', path),
+    getFilePath: (file: File): string => webUtils.getPathForFile(file),
   },
   window: {
     minimize: (): void => send('window:minimize'),

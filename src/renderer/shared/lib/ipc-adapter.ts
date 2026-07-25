@@ -48,6 +48,7 @@ export interface IpcAdapter {
   readonly fs: {
     readonly selectDirectory: (title?: string) => Promise<string | null>;
     readonly getDiskUsage: (path: string) => Promise<{ totalSizeMB: number; fileCount: number }>;
+    readonly getFilePath: (file: File) => string;
   };
   readonly window: {
     readonly minimize: () => void;

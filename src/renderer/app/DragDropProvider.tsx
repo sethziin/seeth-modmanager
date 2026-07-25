@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { toast } from '../shared/components/Toast';
 import { useGameStore } from '../shared/stores/useGameStore';
 import { useModStore } from '../shared/stores/useModStore';
+import { getIpcAdapter } from '../shared/lib/ipc-adapter';
 import styles from './DragDropOverlay.module.css';
 
 export function DragDropProvider({ children }: { readonly children: React.ReactNode }): React.ReactElement {
@@ -55,6 +56,13 @@ export function DragDropProvider({ children }: { readonly children: React.ReactN
       }
 
       for (const archive of archives) {
+        const adapter = getIpcAdapter();
+        const filePath = adapter.fs.getFilePath(archive);
+        if (!filePath) {
+          toast('error', 'Erro', `Não foi possível obter o caminho de "${archive.name}".`);
+          continue;
+        }
+
         const gameId = availableGames.length === 1
           ? availableGames[0]!.id
           : availableGames[0]!.id;
@@ -62,7 +70,7 @@ export function DragDropProvider({ children }: { readonly children: React.ReactN
         toast('info', 'Instalando', `${archive.name}...`);
 
         try {
-          const result = await installMod(gameId, archive.path);
+          const result = await installMod(gameId, filePath);
           toast('success', 'Instalado', `${result.name} v${result.version}`);
         } catch (err) {
           toast('error', 'Falha na instalação', String(err));
