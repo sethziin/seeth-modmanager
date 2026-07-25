@@ -88,8 +88,48 @@ interface CatalogFilters {
 
 ### Default Providers
 
-1. **LocalCatalogProvider**: Reads from a bundled or downloaded `catalog.json` file. Primary provider for v1.
-2. **RemoteCatalogProvider**: Future — fetches from a remote API. Implements caching and incremental updates.
+1. **LocalCatalogProvider**: Reads from a bundled or downloaded `catalog.json` file. Primary provider for v1. The **only** provider registered in `CatalogService`. Responsible for serving search and entry lookup.
+
+2. **RemoteCatalogProvider**: Fetches `catalog.json` from a remote URL, validates checksum, and writes atomically to the local cache file consumed by `LocalCatalogProvider`. Does **not** implement `CatalogProvider` — it is a standalone sync utility, not a search provider.
+
+## Sync Flow
+
+```
+RemoteCatalogProvider (standalone — não registrado no CatalogService)
+  │  fetch(REMOTE_URL) com ETag
+  │  valida SHA-256 checksum
+  │  write atomic → cache/catalogs/catalog.json
+  ▼
+LocalCatalogProvider (único provider registrado)
+  │  refresh() → lê cache/catalogs/catalog.json
+  │  search() / getEntry() → opera sobre dados em memória
+  │  fallback → FALLBACK_ENTRIES (bundled, sem cache)
+  ▼
+CatalogService
+  │  search() → delega para LocalCatalogProvider
+  ▼
+BrowseModsPage (UI)
+```
+
+### Startup Behavior
+- `LocalCatalogProvider.refresh()` é chamado **antes** do sync remoto — o app abre imediatamente com cache local ou fallback
+- `RemoteCatalogProvider.sync()` é fire-and-forget no startup — nunca bloqueia o carregamento
+- Se o sync remoto encontrar novos dados, `LocalCatalogProvider.refresh()` é chamado novamente para recarregar
+
+### RemoteCatalogProvider
+
+| Característica | Detalhe |
+|----------------|---------|
+| Arquivo | `src/main/providers/remote-catalog.provider.ts` |
+| Registro | Não implementa `CatalogProvider` — não é registrado no `CatalogService` |
+| URL | `https://raw.githubusercontent.com/sethziin/seeth-modmanager-catalog/main/catalog.json` |
+| Cache | Escreve em `<dataDir>/cache/catalogs/catalog.json` (mesmo arquivo que LocalCatalogProvider lê) |
+| ETag | Enviado em requests subsequentes para evitar re-download |
+| Checksum | Compara `checksum` do JSON remoto com o cache local — se igual, skip |
+| Escrita atômica | `temp + rename` |
+| Timeout | 10 segundos |
+| Backoff | `syncAttempts` tracking (expõe via `getSyncAttempts()`) |
+| Falha | Silenciosa — nunca bloqueia o app |
 
 ## CatalogService
 

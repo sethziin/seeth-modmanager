@@ -80,18 +80,18 @@ Dictates the tasks tracked in `19-CURRENT_TASK.md` and realizes the architectura
 
 ### Phase 4: Design System & Layout Shell (Days 10-12)
 **Goal**: Implement the visual foundation
-- [ ] Create CSS custom properties (variables.css) with full color, typography, spacing tokens
-- [ ] Create reset.css
-- [ ] Create typography.css
-- [ ] Create scrollbar.css
-- [ ] Create animations.css
-- [ ] Load fonts: DM Sans (body), Outfit (display), JetBrains Mono (code)
-- [ ] Build TitleBar component (drag region, brand, window controls)
-- [ ] Build SideNav component (navigation items, active states, version display)
-- [ ] Build StatusBar component (system status, sync, version)
-- [ ] Build Layout shell (TitleBar + SideNav + Content Outlet + StatusBar)
-- [ ] Configure React Router with HashRouter
-- [ ] Create placeholder pages for all routes
+- [x] Create CSS custom properties (variables.css) with full color, typography, spacing tokens
+- [x] Create reset.css
+- [x] Create typography.css
+- [x] Create scrollbar.css
+- [x] Create animations.css
+- [x] Load fonts: DM Sans (body), Outfit (display), JetBrains Mono (code)
+- [x] Build TitleBar component (drag region, brand, window controls)
+- [x] Build SideNav component (navigation items, active states, version display)
+- [x] Build StatusBar component (system status, sync, version)
+- [x] Build Layout shell (TitleBar + SideNav + Content Outlet + StatusBar)
+- [x] Configure React Router with HashRouter
+- [x] Create placeholder pages for all routes
 **Dependencies**: Phase 2, Phase 3
 **Output**: App shell with navigation, all pages route correctly, design tokens applied
 
@@ -162,7 +162,13 @@ Dictates the tasks tracked in `19-CURRENT_TASK.md` and realizes the architectura
 **Dependencies**: Phase 8
 **Output**: v1.0.0 release ready for distribution
 
-### Future Phases (Post v1.0.0)
+### Milestone: Remote Catalog Sync (V2.1)
+- [x] RemoteCatalogProvider com ETag, checksum validation, atomic cache write
+- [x] Auto-sync no startup (non-blocking, fire-and-forget)
+- [x] Offline fallback: Remote → cache → bundled FALLBACK_ENTRIES
+- [x] 13 testes (200 OK, 304, checksum, network error, atomic write)
+
+### Future Phases (Post v2.0)
 - Mod profiles/presets
 - Community mod browsing (real API integration)
 - Mod conflict resolution UI

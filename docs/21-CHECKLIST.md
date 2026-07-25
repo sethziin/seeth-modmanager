@@ -166,3 +166,15 @@ This is a comprehensive verification checklist for each development phase.
 - [x] All 126 tests pass (11 test files)
 - [x] Documentation up to date
 - [x] CURRENT_TASK.md updated to reflect release
+
+### Remote Catalog Sync (V2.1)
+- [x] RemoteCatalogProvider implemented (standalone, não provider)
+- [x] ETag support for conditional requests (304 Not Modified)
+- [x] SHA-256 checksum validation (skip cache write if checksum matches)
+- [x] Atomic cache writes (temp + rename)
+- [x] Offline fallback: Remote → cache → bundled FALLBACK_ENTRIES
+- [x] Auto-sync on startup (non-blocking, fire-and-forget)
+- [x] 10s timeout on remote fetch
+- [x] syncAttempts tracking for exponential backoff (future use)
+- [x] 13 tests covering all error and success paths
+- [x] IPC handler catalog:refresh for manual sync (future UI)
